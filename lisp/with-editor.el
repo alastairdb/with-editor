@@ -585,6 +585,8 @@ instead of `set-process-filter' inside `with-editor' forms.
 When the `default-directory' is located on a remote machine and
 FILE-HANDLER is non-nil, then also manipulate COMMAND in order
 to set the appropriate editor environment variable."
+  (when (and default-directory (not (file-directory-p default-directory)))
+    (setq default-directory "~"))
   (if (or (not file-handler) (not with-editor--envvar))
       (apply fn keys)
     (when (file-remote-p default-directory)
